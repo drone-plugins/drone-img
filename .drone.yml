@@ -34,7 +34,7 @@ volumes:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
   - "refs/pull/**"
 
@@ -94,7 +94,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
   - "refs/pull/**"
 
@@ -123,7 +123,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
 
 depends_on:
@@ -180,7 +180,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
   - "refs/pull/**"
 
@@ -208,7 +208,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
 
 depends_on:
@@ -265,7 +265,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
   - "refs/pull/**"
 
@@ -294,7 +294,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
 
 depends_on:
@@ -351,7 +351,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
   - "refs/pull/**"
 
@@ -379,7 +379,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
 
 depends_on:
@@ -436,7 +436,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
   - "refs/pull/**"
 
@@ -464,7 +464,7 @@ steps:
 
 trigger:
   ref:
-  - refs/heads/master
+  - refs/heads/main
   - "refs/tags/**"
 
 depends_on:
