@@ -19,7 +19,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ecr"
 
-	docker "github.com/drone-plugins/drone-docker"
+	docker "github.com/drone-plugins/drone-img"
 )
 
 const defaultRegion = "us-east-1"
@@ -113,7 +113,7 @@ func main() {
 	os.Setenv("DOCKER_PASSWORD", password)
 
 	// invoke the base docker plugin binary
-	cmd := exec.Command(docker.GetDroneDockerExecCmd())
+	cmd := exec.Command(docker.GetImgExecCmd())
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err = cmd.Run(); err != nil {

@@ -1,14 +1,14 @@
-# drone-docker
+# drone-img
 
-[![Build Status](http://cloud.drone.io/api/badges/drone-plugins/drone-docker/status.svg)](http://cloud.drone.io/drone-plugins/drone-docker)
+[![Build Status](http://cloud.drone.io/api/badges/drone-plugins/drone-img/status.svg)](http://cloud.drone.io/drone-plugins/drone-img)
 [![Gitter chat](https://badges.gitter.im/drone/drone.png)](https://gitter.im/drone/drone)
 [![Join the discussion at https://discourse.drone.io](https://img.shields.io/badge/discourse-forum-orange.svg)](https://discourse.drone.io)
 [![Drone questions at https://stackoverflow.com](https://img.shields.io/badge/drone-stackoverflow-orange.svg)](https://stackoverflow.com/questions/tagged/drone.io)
 [![](https://images.microbadger.com/badges/image/plugins/docker.svg)](https://microbadger.com/images/plugins/docker "Get your own image badge on microbadger.com")
-[![Go Doc](https://godoc.org/github.com/drone-plugins/drone-docker?status.svg)](http://godoc.org/github.com/drone-plugins/drone-docker)
-[![Go Report](https://goreportcard.com/badge/github.com/drone-plugins/drone-docker)](https://goreportcard.com/report/github.com/drone-plugins/drone-docker)
+[![Go Doc](https://godoc.org/github.com/drone-plugins/drone-img?status.svg)](http://godoc.org/github.com/drone-plugins/drone-img)
+[![Go Report](https://goreportcard.com/badge/github.com/drone-plugins/drone-img)](https://goreportcard.com/report/github.com/drone-plugins/drone-img)
 
-Drone plugin uses Docker-in-Docker to build and publish Docker images to a container registry. For the usage information and a listing of the available options please take a look at [the docs](http://plugins.drone.io/drone-plugins/drone-docker/).
+Drone plugin uses img to build and publish Docker images to a container registry. For the usage information and a listing of the available options please take a look at [the docs](http://plugins.drone.io/drone-plugins/drone-img/).
 
 ## Build
 
@@ -35,27 +35,27 @@ Build the Docker images with the following commands:
 docker build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --file docker/docker/Dockerfile.linux.amd64 --tag plugins/docker .
+  --file docker/docker/Dockerfile.linux.amd64 --tag plugins/img-docker .
 
 docker build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --file docker/gcr/Dockerfile.linux.amd64 --tag plugins/gcr .
+  --file docker/gcr/Dockerfile.linux.amd64 --tag plugins/img-gcr .
 
 docker build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --file docker/ecr/Dockerfile.linux.amd64 --tag plugins/ecr .
+  --file docker/ecr/Dockerfile.linux.amd64 --tag plugins/img-ecr .
 
 docker build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --file docker/acr/Dockerfile.linux.amd64 --tag plugins/acr .
+  --file docker/acr/Dockerfile.linux.amd64 --tag plugins/img-acr .
 
 docker build \
   --label org.label-schema.build-date=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
   --label org.label-schema.vcs-ref=$(git rev-parse --short HEAD) \
-  --file docker/heroku/Dockerfile.linux.amd64 --tag plugins/heroku .
+  --file docker/heroku/Dockerfile.linux.amd64 --tag plugins/img-heroku .
 ```
 
 ## Usage
@@ -70,7 +70,7 @@ name: default
 
 steps:
 - name: build dummy docker file and publish
-  image: plugins/docker
+  image: plugins/img-docker
   pull: never
   settings:
     repo: tphoney/test
@@ -109,8 +109,7 @@ docker run --rm \
   -e DRONE_COMMIT_SHA=d8dbe4d94f15fe89232e0402c6e8a0ddf21af3ab \
   -v $(pwd):$(pwd) \
   -w $(pwd) \
-  --privileged \
-  plugins/docker --dry-run
+  plugins/img-docker --dry-run
 ```
 
 ## Developer Notes
@@ -123,7 +122,7 @@ docker run --rm \
 Run the changelog generator.
 
 ```BASH
-docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator -u drone-plugins -p drone-docker -t <secret github token>
+docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator -u drone-plugins -p drone-img -t <secret github token>
 ```
 
 You can generate a token by logging into your GitHub account and going to Settings -> Personal access tokens.
@@ -133,7 +132,7 @@ Next we tag the PR's with the fixes or enhancements labels. If the PR does not f
 Run the changelog generator again with the future version according to semver.
 
 ```BASH
-docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator -u drone-plugins -p drone-docker -t <secret token> --future-release v1.0.0
+docker run -it --rm -v "$(pwd)":/usr/local/src/your-app githubchangeloggenerator/github-changelog-generator -u drone-plugins -p drone-img -t <secret token> --future-release v1.0.0
 ```
 
 Create your pull request for the release. Get it merged then tag the release.

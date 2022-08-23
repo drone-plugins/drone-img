@@ -15,7 +15,7 @@ func TestCommandBuild(t *testing.T) {
 		{
 			name: "secret from env var",
 			build: Build{
-				Name:       "plugins/drone-docker:latest",
+				Name:       "plugins/drone-img:latest",
 				Dockerfile: "Dockerfile",
 				Context:    ".",
 				SecretEnvs: []string{
@@ -23,13 +23,13 @@ func TestCommandBuild(t *testing.T) {
 				},
 			},
 			want: exec.Command(
-				dockerExe,
+				GetImgCmd(),
 				"build",
 				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",
-				"plugins/drone-docker:latest",
+				"plugins/drone-img:latest",
 				".",
 				"--secret id=foo_secret,env=FOO_SECRET_ENV_VAR",
 			),
@@ -37,7 +37,7 @@ func TestCommandBuild(t *testing.T) {
 		{
 			name: "secret from file",
 			build: Build{
-				Name:       "plugins/drone-docker:latest",
+				Name:       "plugins/drone-img:latest",
 				Dockerfile: "Dockerfile",
 				Context:    ".",
 				SecretFiles: []string{
@@ -45,13 +45,13 @@ func TestCommandBuild(t *testing.T) {
 				},
 			},
 			want: exec.Command(
-				dockerExe,
+				GetImgCmd(),
 				"build",
 				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",
-				"plugins/drone-docker:latest",
+				"plugins/drone-img:latest",
 				".",
 				"--secret id=foo_secret,src=/path/to/foo_secret",
 			),
@@ -59,7 +59,7 @@ func TestCommandBuild(t *testing.T) {
 		{
 			name: "multiple mixed secrets",
 			build: Build{
-				Name:       "plugins/drone-docker:latest",
+				Name:       "plugins/drone-img:latest",
 				Dockerfile: "Dockerfile",
 				Context:    ".",
 				SecretEnvs: []string{
@@ -72,13 +72,13 @@ func TestCommandBuild(t *testing.T) {
 				},
 			},
 			want: exec.Command(
-				dockerExe,
+				GetImgCmd(),
 				"build",
 				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",
-				"plugins/drone-docker:latest",
+				"plugins/drone-img:latest",
 				".",
 				"--secret id=foo_secret,env=FOO_SECRET_ENV_VAR",
 				"--secret id=bar_secret,env=BAR_SECRET_ENV_VAR",
@@ -89,7 +89,7 @@ func TestCommandBuild(t *testing.T) {
 		{
 			name: "invalid mixed secrets",
 			build: Build{
-				Name:       "plugins/drone-docker:latest",
+				Name:       "plugins/drone-img:latest",
 				Dockerfile: "Dockerfile",
 				Context:    ".",
 				SecretEnvs: []string{
@@ -104,13 +104,13 @@ func TestCommandBuild(t *testing.T) {
 				},
 			},
 			want: exec.Command(
-				dockerExe,
+				GetImgCmd(),
 				"build",
 				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",
-				"plugins/drone-docker:latest",
+				"plugins/drone-img:latest",
 				".",
 			),
 		},

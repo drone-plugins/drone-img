@@ -18,7 +18,7 @@ import (
 )
 
 func (p Plugin) writeCard() error {
-	cmd := exec.Command("docker", "inspect", p.Build.Name)
+	cmd := exec.Command("img", "inspect", p.Build.Name)
 	data, err := cmd.CombinedOutput()
 	if err != nil {
 		return err

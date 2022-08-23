@@ -6,10 +6,11 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"time"
 )
+
+const dockerHome = "/root/.docker/"
 
 type (
 	// Daemon defines Docker daemon parameters.
@@ -105,26 +106,6 @@ type (
 
 // Exec executes the plugin step
 func (p Plugin) Exec() error {
-	// start the Docker daemon server
-	if !p.Daemon.Disabled {
-		p.startDaemon()
-	}
-
-	// poll the docker daemon until it is started. This ensures the daemon is
-	// ready to accept connections before we proceed.
-	for i := 0; ; i++ {
-		cmd := commandInfo()
-		err := cmd.Run()
-		if err == nil {
-			break
-		}
-		if i == 15 {
-			fmt.Println("Unable to reach Docker Daemon after 15 attempts.")
-			break
-		}
-		time.Sleep(time.Second * 1)
-	}
-
 	// for debugging purposes, log the type of authentication
 	// credentials that have been provided.
 	switch {
@@ -171,7 +152,7 @@ func (p Plugin) Exec() error {
 
 	var cmds []*exec.Cmd
 	cmds = append(cmds, commandVersion()) // docker version
-	cmds = append(cmds, commandInfo())    // docker info
+	// cmds = append(cmds, commandInfo())    // docker info
 
 	// pre-pull cache images
 	for _, img := range p.Build.CacheFrom {
@@ -235,7 +216,7 @@ func commandLogin(login Login) *exec.Cmd {
 		return commandLoginEmail(login)
 	}
 	return exec.Command(
-		dockerExe, "login",
+		GetImgCmd(), "login",
 		"-u", login.Username,
 		"-p", login.Password,
 		login.Registry,
@@ -248,12 +229,12 @@ func isCommandPull(args []string) bool {
 }
 
 func commandPull(repo string) *exec.Cmd {
-	return exec.Command(dockerExe, "pull", repo)
+	return exec.Command(GetImgCmd(), "pull", repo)
 }
 
 func commandLoginEmail(login Login) *exec.Cmd {
 	return exec.Command(
-		dockerExe, "login",
+		GetImgCmd(), "login",
 		"-u", login.Username,
 		"-p", login.Password,
 		"-e", login.Email,
@@ -263,19 +244,19 @@ func commandLoginEmail(login Login) *exec.Cmd {
 
 // helper function to create the docker info command.
 func commandVersion() *exec.Cmd {
-	return exec.Command(dockerExe, "version")
+	return exec.Command(GetImgCmd(), "version")
 }
 
 // helper function to create the docker info command.
 func commandInfo() *exec.Cmd {
-	return exec.Command(dockerExe, "info")
+	return exec.Command(GetImgCmd(), "info")
 }
 
 // helper function to create the docker build command.
 func commandBuild(build Build) *exec.Cmd {
 	args := []string{
 		"build",
-		"--rm=true",
+		// "--rm=true",
 		"-f", build.Dockerfile,
 		"-t", build.Name,
 	}
@@ -287,9 +268,9 @@ func commandBuild(build Build) *exec.Cmd {
 	if build.Compress {
 		args = append(args, "--compress")
 	}
-	if build.Pull {
-		args = append(args, "--pull=true")
-	}
+	// if build.Pull {
+	// 	args = append(args, "--pull=true")
+	// }
 	if build.NoCache {
 		args = append(args, "--no-cache")
 	}
@@ -353,7 +334,7 @@ func commandBuild(build Build) *exec.Cmd {
 	if build.Secret != "" || len(build.SecretEnvs) > 0 || len(build.SecretFiles) > 0 {
 		os.Setenv("DOCKER_BUILDKIT", "1")
 	}
-	return exec.Command(dockerExe, args...)
+	return exec.Command(GetImgCmd(), args...)
 }
 
 func getSecretStringCmdArg(kvp string) (string, error) {
@@ -434,14 +415,14 @@ func commandTag(build Build, tag string) *exec.Cmd {
 		target = fmt.Sprintf("%s:%s", build.Repo, tag)
 	)
 	return exec.Command(
-		dockerExe, "tag", source, target,
+		GetImgCmd(), "tag", source, target,
 	)
 }
 
 // helper function to create the docker push command.
 func commandPush(build Build, tag string) *exec.Cmd {
 	target := fmt.Sprintf("%s:%s", build.Repo, tag)
-	return exec.Command(dockerExe, "push", target)
+	return exec.Command(GetImgCmd(), "push", target)
 }
 
 // helper function to create the docker daemon command.
@@ -482,7 +463,7 @@ func commandDaemon(daemon Daemon) *exec.Cmd {
 	if daemon.Experimental {
 		args = append(args, "--experimental")
 	}
-	return exec.Command(dockerdExe, args...)
+	return exec.Command(GetImgCmd(), args...)
 }
 
 // helper to check if args match "docker prune"
@@ -491,7 +472,7 @@ func isCommandPrune(args []string) bool {
 }
 
 func commandPrune() *exec.Cmd {
-	return exec.Command(dockerExe, "system", "prune", "-f")
+	return exec.Command(GetImgCmd(), "system", "prune", "-f")
 }
 
 // helper to check if args match "docker rmi"
@@ -500,7 +481,7 @@ func isCommandRmi(args []string) bool {
 }
 
 func commandRmi(tag string) *exec.Cmd {
-	return exec.Command(dockerExe, "rmi", tag)
+	return exec.Command(GetImgCmd(), "rmi", tag)
 }
 
 // trace writes each command to stdout with the command wrapped in an xml
@@ -509,10 +490,10 @@ func trace(cmd *exec.Cmd) {
 	fmt.Fprintf(os.Stdout, "+ %s\n", strings.Join(cmd.Args, " "))
 }
 
-func GetDroneDockerExecCmd() string {
-	if runtime.GOOS == "windows" {
-		return "C:/bin/drone-docker.exe"
-	}
+func GetImgCmd() string {
+	return "img"
+}
 
+func GetImgExecCmd() string {
 	return "drone-docker"
 }
