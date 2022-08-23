@@ -8,7 +8,9 @@
 [![Go Doc](https://godoc.org/github.com/drone-plugins/drone-img?status.svg)](http://godoc.org/github.com/drone-plugins/drone-img)
 [![Go Report](https://goreportcard.com/badge/github.com/drone-plugins/drone-img)](https://goreportcard.com/report/github.com/drone-plugins/drone-img)
 
-Drone plugin uses img to build and publish Docker images to a container registry. For the usage information and a listing of the available options please take a look at [the docs](http://plugins.drone.io/drone-plugins/drone-img/).
+Drone plugin uses img to build and publish Docker images to a container registry. It allows running docker builds on kubernetes environment in rootless and non-privileged mode. It is required to set the annotation on the kubernetes pod container.apparmor.security.beta.kubernetes.io/<container-name>: unconfined
+
+For the usage information and a listing of the available options please take a look at [the docs](http://plugins.drone.io/drone-plugins/drone-img/).
 
 ## Build
 
