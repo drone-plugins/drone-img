@@ -6,7 +6,7 @@ require (
 	github.com/drone/drone-go v1.7.1
 	github.com/inhies/go-bytesize v0.0.0-20210819104631-275770b98743
 	github.com/joho/godotenv v1.3.0
-	github.com/sirupsen/logrus v1.3.0
+	github.com/sirupsen/logrus v1.9.0
 	github.com/urfave/cli v1.22.2
 )
 
@@ -17,7 +17,7 @@ require (
 	github.com/russross/blackfriday/v2 v2.0.1 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20180904163835-0709b304e793 // indirect
-	golang.org/x/sys v0.0.0-20180905080454-ebe1bf3edb33 // indirect
+	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
 
