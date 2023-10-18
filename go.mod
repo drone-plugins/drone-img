@@ -1,7 +1,7 @@
 module github.com/drone-plugins/drone-img
 
 require (
-	github.com/aws/aws-sdk-go v1.44.245
+	github.com/aws/aws-sdk-go v1.45.28
 	github.com/coreos/go-semver v0.3.1
 	github.com/drone/drone-go v1.7.1
 	github.com/inhies/go-bytesize v0.0.0-20220417184213-4913239db9cf
