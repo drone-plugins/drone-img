@@ -1,4 +1,4 @@
-FROM r.j3ss.co/img
+FROM jess/img
 
 ADD release/linux/amd64/drone-acr /bin/
 ENTRYPOINT ["/bin/drone-acr"]
