@@ -7,7 +7,7 @@ require (
 	github.com/inhies/go-bytesize v0.0.0-20220417184213-4913239db9cf
 	github.com/joho/godotenv v1.5.1
 	github.com/sirupsen/logrus v1.9.3
-	github.com/urfave/cli v1.22.12
+	github.com/urfave/cli v1.22.14
 )
 
 require (
