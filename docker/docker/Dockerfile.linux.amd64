@@ -2,10 +2,14 @@ FROM harness0.harness.io/oci/docker_artifacts/hhi/harnessos-alpine:1@sha256:290a
 RUN apk add --no-cache 'ca-certificates>=20261020-r0'
 
 FROM jess/img@sha256:afdfe8aaef3891667b89c865540d92615263f855c9a591b15c9356f08f0e4dc4
-COPY --from=hhi-ca-certificates /etc/ssl/certs/ca-certificates.crt /etc/hhi/certs/ca-certificates.crt
-ENV SSL_CERT_FILE=/etc/hhi/certs/ca-certificates.crt SSL_CERT_DIR=/etc/hhi/certs
+USER root
+RUN apk add --no-cache ca-certificates
+COPY --from=hhi-ca-certificates /usr/share/ca-certificates/ /usr/share/ca-certificates/
+COPY --from=hhi-ca-certificates /etc/ca-certificates.conf /etc/ca-certificates.conf
+RUN rm -f /usr/share/ca-certificates/mozilla/AAA_Certificate_Services.crt /usr/share/ca-certificates/mozilla/Comodo_AAA_Services_root.crt /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt \
+    && printf '%s\n' '!mozilla/AAA_Certificate_Services.crt' '!mozilla/Comodo_AAA_Services_root.crt' '!mozilla/emSign_ECC_Root_CA_-_G3.crt' >> /etc/ca-certificates.conf \
+    && update-ca-certificates --fresh
+USER user
 
 ADD release/linux/amd64/drone-docker /bin/
 ENTRYPOINT ["/bin/drone-docker"]
-
-COPY --from=hhi-ca-certificates /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
