@@ -1,4 +1,13 @@
-FROM jess/img
+FROM alpine:3.19@sha256:6baf43584bcb78f2e5847d1de515f23499913ac9f12bdf834811a3145eb11ca1 AS ca-certificates
+RUN apk add --no-cache 'ca-certificates>=20261020-r0'
+
+FROM jess/img@sha256:afdfe8aaef3891667b89c865540d92615263f855c9a591b15c9356f08f0e4dc4
+USER root
+COPY --from=ca-certificates /usr/share/ca-certificates/ /usr/share/ca-certificates/
+COPY --from=ca-certificates /etc/ca-certificates.conf /etc/ca-certificates.conf
+RUN update-ca-certificates --fresh \
+    && ln -sf certs/ca-certificates.crt /etc/ssl/cert.pem
+USER user
 
 ADD release/linux/amd64/drone-acr /bin/
 ENTRYPOINT ["/bin/drone-acr"]
