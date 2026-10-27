@@ -5,7 +5,8 @@ local test_pipeline_name = 'testing';
 local windows(os) = os == 'windows';
 
 local golang_image(os, version) =
-  'golang:' + '1.13' + if windows(os) then '-windowsservercore-' + version else '';
+  if windows(os) then 'golang:1.26.10-windowsservercore-' + version
+  else 'golang:1.26.10@sha256:24a707af49702fa44f02785475d02fb752f6982d3e9c0afb7696e1f0204e7ce9';
 
 {
   test(os='linux', arch='amd64', version='')::
@@ -119,6 +120,8 @@ local golang_image(os, version) =
           image: 'plugins/docker:' + tag,
           pull: 'always',
           settings: {
+            pull_image: true,
+            no_cache: true,
             dry_run: true,
             tags: tag,
             dockerfile: 'docker/'+ name +'/Dockerfile.' + file_suffix,
@@ -137,6 +140,8 @@ local golang_image(os, version) =
           image: 'plugins/docker:' + tag,
           pull: 'always',
           settings: {
+            pull_image: true,
+            no_cache: true,
             auto_tag: true,
             auto_tag_suffix: tag,
             daemon_off: if is_windows then 'true' else 'false',

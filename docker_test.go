@@ -25,6 +25,7 @@ func TestCommandBuild(t *testing.T) {
 			want: exec.Command(
 				GetImgCmd(),
 				"build",
+				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",
@@ -46,6 +47,7 @@ func TestCommandBuild(t *testing.T) {
 			want: exec.Command(
 				GetImgCmd(),
 				"build",
+				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",
@@ -72,6 +74,7 @@ func TestCommandBuild(t *testing.T) {
 			want: exec.Command(
 				GetImgCmd(),
 				"build",
+				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",
@@ -103,6 +106,7 @@ func TestCommandBuild(t *testing.T) {
 			want: exec.Command(
 				GetImgCmd(),
 				"build",
+				"--rm=true",
 				"-f",
 				"Dockerfile",
 				"-t",

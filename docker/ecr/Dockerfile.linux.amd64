@@ -1,14 +1,13 @@
-FROM harness0.harness.io/oci/docker_artifacts/hhi/harnessos-alpine:1@sha256:290a37c85b4284d2c11fa0778e5da79643d912a1f5a57d6f701b77644503b7e7 AS hhi-ca-certificates
+FROM alpine:3.24@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS ca-certificates
 RUN apk add --no-cache 'ca-certificates>=20261020-r0'
 
 FROM jess/img@sha256:afdfe8aaef3891667b89c865540d92615263f855c9a591b15c9356f08f0e4dc4
 USER root
 RUN apk add --no-cache ca-certificates
-COPY --from=hhi-ca-certificates /usr/share/ca-certificates/ /usr/share/ca-certificates/
-COPY --from=hhi-ca-certificates /etc/ca-certificates.conf /etc/ca-certificates.conf
-RUN rm -f /usr/share/ca-certificates/mozilla/AAA_Certificate_Services.crt /usr/share/ca-certificates/mozilla/Comodo_AAA_Services_root.crt /usr/share/ca-certificates/mozilla/emSign_ECC_Root_CA_-_G3.crt \
-    && printf '%s\n' '!mozilla/AAA_Certificate_Services.crt' '!mozilla/Comodo_AAA_Services_root.crt' '!mozilla/emSign_ECC_Root_CA_-_G3.crt' >> /etc/ca-certificates.conf \
-    && update-ca-certificates --fresh
+COPY --from=ca-certificates /usr/share/ca-certificates/ /usr/share/ca-certificates/
+COPY --from=ca-certificates /etc/ca-certificates.conf /etc/ca-certificates.conf
+RUN update-ca-certificates --fresh \
+    && ln -sf certs/ca-certificates.crt /etc/ssl/cert.pem
 USER user
 
 ADD release/linux/amd64/drone-ecr /bin/
