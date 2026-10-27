@@ -21,8 +21,8 @@ GOOS=linux GOARCH=amd64 go build -o release/linux/amd64/drone-acr    ./cmd/drone
 GOOS=linux GOARCH=amd64 go build -o release/linux/amd64/drone-heroku   ./cmd/drone-heroku
 
 # build the docker image
-docker build --pull --no-cache -f docker/gcr/Dockerfile.linux.amd64    -t plugins/img-gcr .
-docker build --pull --no-cache -f docker/ecr/Dockerfile.linux.amd64    -t plugins/img-ecr .
-docker build --pull --no-cache -f docker/docker/Dockerfile.linux.amd64 -t plugins/img-docker .
-docker build --pull --no-cache -f docker/acr/Dockerfile.linux.amd64    -t plugins/img-acr .
-docker build --pull --no-cache -f docker/heroku/Dockerfile.linux.amd64 -t plugins/img-heroku .
+docker build -f docker/gcr/Dockerfile.linux.amd64    -t plugins/img-gcr .
+docker build -f docker/ecr/Dockerfile.linux.amd64    -t plugins/img-ecr .
+docker build -f docker/docker/Dockerfile.linux.amd64 -t plugins/img-docker .
+docker build -f docker/acr/Dockerfile.linux.amd64    -t plugins/img-acr .
+docker build -f docker/heroku/Dockerfile.linux.amd64 -t plugins/img-heroku .

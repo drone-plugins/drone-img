@@ -3,7 +3,6 @@ RUN apk add --no-cache 'ca-certificates>=20261020-r0'
 
 FROM jess/img@sha256:afdfe8aaef3891667b89c865540d92615263f855c9a591b15c9356f08f0e4dc4
 USER root
-RUN apk add --no-cache ca-certificates
 COPY --from=ca-certificates /usr/share/ca-certificates/ /usr/share/ca-certificates/
 COPY --from=ca-certificates /etc/ca-certificates.conf /etc/ca-certificates.conf
 RUN update-ca-certificates --fresh \

@@ -120,8 +120,6 @@ local golang_image(os, version) =
           image: 'plugins/docker:' + tag,
           pull: 'always',
           settings: {
-            pull_image: true,
-            no_cache: true,
             dry_run: true,
             tags: tag,
             dockerfile: 'docker/'+ name +'/Dockerfile.' + file_suffix,
@@ -140,8 +138,6 @@ local golang_image(os, version) =
           image: 'plugins/docker:' + tag,
           pull: 'always',
           settings: {
-            pull_image: true,
-            no_cache: true,
             auto_tag: true,
             auto_tag_suffix: tag,
             daemon_off: if is_windows then 'true' else 'false',

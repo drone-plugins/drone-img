@@ -78,8 +78,6 @@ steps:
 - name: publish
   image: plugins/docker:20
   settings:
-    pull_image: true
-    no_cache: true
     auto_tag: true
     auto_tag_suffix: linux-amd64
     daemon_off: false
@@ -166,8 +164,6 @@ steps:
 - name: publish
   image: plugins/docker:20
   settings:
-    pull_image: true
-    no_cache: true
     auto_tag: true
     auto_tag_suffix: linux-amd64
     daemon_off: false
@@ -253,8 +249,6 @@ steps:
 - name: publish
   image: plugins/docker:20
   settings:
-    pull_image: true
-    no_cache: true
     auto_tag: true
     auto_tag_suffix: linux-amd64
     daemon_off: false
@@ -341,8 +335,6 @@ steps:
 - name: publish
   image: plugins/docker:20
   settings:
-    pull_image: true
-    no_cache: true
     auto_tag: true
     auto_tag_suffix: linux-amd64
     daemon_off: false
@@ -428,8 +420,6 @@ steps:
 - name: publish
   image: plugins/docker:20
   settings:
-    pull_image: true
-    no_cache: true
     auto_tag: true
     auto_tag_suffix: linux-amd64
     daemon_off: false
